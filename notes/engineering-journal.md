@@ -327,4 +327,30 @@ The EC2 instance should only receive the permissions required for its workload.
 
 In production, I would further restrict the policy to only the specific S3 bucket and actions required.
 
+## Ticket #002 Closeout
+
+Status: COMPLETE
+
+### Deliverables
+
+- Ubuntu EC2 instance deployed
+- SSH access configured
+- Linux system updated
+- Nginx installed and configured
+- HTTP connectivity verified
+- Linux permissions practiced
+- Linux ownership practiced
+- Bash health-check script created
+- EC2 User Data studied
+- AWS CLI v2 installed
+- EC2 IAM role configured
+- S3 read-only permissions tested
+- Least privilege verified
+- Troubleshooting documented
+- Work committed to Git
+
+### Final Result
+
+Ticket #002 successfully established foundational skills in EC2, Linux administration, AWS security, troubleshooting, and automation.
+
 Begin Project #2 - AWS Networking.
