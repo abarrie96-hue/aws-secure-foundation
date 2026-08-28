@@ -45,3 +45,40 @@ aws --version
 ### Lesson Learned
 
 A package installation failure does not necessarily mean the command syntax is incorrect. Check package availability and use the vendor-supported installation method when appropriate.
+
+## AWS VPC Connectivity Troubleshooting
+
+When an EC2 instance cannot be reached, troubleshoot the network layer by layer instead of randomly changing settings.
+
+### Troubleshooting Order
+
+1. Verify the application is running.
+2. Verify the application is listening on the expected port.
+3. Verify the EC2 instance IP configuration.
+4. Check the Security Group.
+5. Check the Network ACL.
+6. Check the subnet route table.
+7. Check the Internet Gateway or NAT Gateway.
+8. Check DNS/client connectivity.
+
+### Useful Commands
+
+Test the application locally:
+
+curl http://localhost
+
+Check listening ports:
+
+sudo ss -tulpn
+
+Check network interfaces:
+
+ip addr
+
+Test external connectivity:
+
+curl -I https://aws.amazon.com
+
+### Key Lesson
+
+If an application works locally but cannot be reached externally, investigate the networking path instead of immediately assuming the application is broken.

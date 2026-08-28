@@ -354,3 +354,75 @@ Status: COMPLETE
 Ticket #002 successfully established foundational skills in EC2, Linux administration, AWS security, troubleshooting, and automation.
 
 Begin Project #2 - AWS Networking.
+
+# Ticket #003 — AWS VPC Networking
+
+## Objective
+
+Design and test a secure AWS network using public and private subnets.
+
+## Architecture Built
+
+- VPC: 10.0.0.0/16
+- Public subnet: 10.0.1.0/24
+- Private subnet: 10.0.2.0/24
+- Internet Gateway
+- Public and private route tables
+- NAT Gateway
+- Elastic IP
+- Public EC2 instance
+- Private EC2 instance
+- Security Groups
+
+## What I Learned
+
+### Public vs Private Subnets
+
+A public subnet has a route to an Internet Gateway:
+
+0.0.0.0/0 → IGW
+
+A private subnet does not have a direct route to an Internet Gateway.
+
+For outbound internet access, the private subnet used:
+
+0.0.0.0/0 → NAT Gateway
+
+### Private Networking
+
+Resources inside the VPC communicate using the local route:
+
+10.0.0.0/16 → local
+
+Traffic between the public and private EC2 instances did not need to travel through the NAT Gateway or Internet Gateway.
+
+### NAT Gateway
+
+The NAT Gateway allowed the private EC2 instance to initiate outbound internet connections without assigning the instance a public IPv4 address.
+
+### Security Groups vs NACLs
+
+Security Groups:
+- Resource/ENI level
+- Stateful
+- Allow rules
+
+Network ACLs:
+- Subnet level
+- Stateless
+- Allow and deny rules
+
+### Testing Performed
+
+- Laptop → Public EC2 SSH: SUCCESS
+- Laptop → Private EC2 directly: NOT ALLOWED
+- Public EC2 → Private EC2: SUCCESS
+- Private EC2 → Internet through NAT: SUCCESS
+
+## Security Takeaway
+
+Public IP addresses should only be assigned when required. Backend resources can remain private while still communicating internally and accessing the internet through controlled outbound paths.
+
+## One Thing I Can Explain Without Notes
+
+I can explain how traffic moves from a private EC2 instance through a NAT Gateway and Internet Gateway to reach the internet.
