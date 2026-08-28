@@ -289,4 +289,42 @@ Learn IAM Roles for EC2 in more detail.
 
 Complete Ticket #002 documentation.
 
+## IAM Roles for EC2
+
+### What I Learned
+
+EC2 instances can access AWS services securely by using IAM roles instead of storing long-term AWS access keys on the server.
+
+I created:
+
+- IAM Role: acme-ec2-s3-readonly-role
+- Trusted Service: EC2
+- Permission: AmazonS3ReadOnlyAccess
+
+### Verification
+
+I verified the identity being used by the EC2 instance with:
+
+aws sts get-caller-identity
+
+The EC2 instance successfully assumed the IAM role.
+
+I tested an allowed operation:
+
+aws s3 ls
+
+I also tested an operation outside the role's permissions:
+
+aws iam list-users
+
+The IAM operation returned AccessDenied, which confirmed that least privilege was working correctly.
+
+### Security Takeaway
+
+IAM roles are safer than storing access keys on EC2 instances because AWS provides and rotates temporary credentials automatically.
+
+The EC2 instance should only receive the permissions required for its workload.
+
+In production, I would further restrict the policy to only the specific S3 bucket and actions required.
+
 Begin Project #2 - AWS Networking.
