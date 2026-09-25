@@ -426,3 +426,92 @@ Public IP addresses should only be assigned when required. Backend resources can
 ## One Thing I Can Explain Without Notes
 
 I can explain how traffic moves from a private EC2 instance through a NAT Gateway and Internet Gateway to reach the internet.
+
+# Ticket #004 — Terraform Infrastructure as Code
+
+## Objective
+
+Use Terraform to provision and manage AWS infrastructure instead of manually creating resources through the AWS Console.
+
+## Infrastructure Built
+
+- VPC
+- Public subnet
+- Private subnet
+- Internet Gateway
+- Public and private route tables
+- Route table associations
+- Security Groups
+- Security Group rules
+- Public EC2 instance
+- Private EC2 instance
+
+## Terraform Workflow
+
+terraform init
+terraform fmt
+terraform validate
+terraform plan
+terraform apply
+terraform destroy
+
+## Key Lessons
+
+### Resource References
+
+Terraform resources reference other resources dynamically instead of hardcoding AWS-generated IDs.
+
+Example:
+
+vpc_id = aws_vpc.main.id
+
+This allows Terraform to automatically use new AWS resource IDs when infrastructure is recreated.
+
+### Terraform State
+
+Terraform state tracks the infrastructure Terraform manages and maps Terraform resource addresses to actual provider resources.
+
+The state file should not be committed to Git.
+
+### Variables
+
+Variables make Terraform configurations reusable instead of hardcoding values such as CIDR ranges, regions, instance types, and environment names.
+
+### Data Sources
+
+Data sources retrieve information about existing resources or provider data.
+
+I used an AWS AMI data source to locate an Ubuntu AMI instead of hardcoding an AMI ID.
+
+### Terraform Plan
+
+terraform plan allows infrastructure changes to be reviewed before they are applied.
+
+I reviewed plans for create, update, destroy, and replacement operations before making changes.
+
+### Drift
+
+I manually changed an AWS VPC tag and Terraform detected that the deployed infrastructure no longer matched the desired configuration.
+
+Terraform then restored the configured value.
+
+### Reproducibility
+
+I destroyed the Terraform environment and recreated it using terraform apply.
+
+AWS assigned new resource IDs, but no Terraform code needed to be manually updated because the resources used dynamic references.
+
+## Networking Validation
+
+- Laptop → Public EC2 SSH: SUCCESS
+- Public EC2 → Private EC2 SSH: SUCCESS
+- Private EC2 → Internet: FAILED AS EXPECTED
+- Reason: Private route table had no NAT Gateway/default internet route
+
+## Security Practices
+
+- SSH restricted to administrator /32 CIDR
+- Private EC2 had no public IPv4 address
+- Private SSH allowed from the public Security Group
+- AWS credentials were not hardcoded
+- terraform.tfvars and state files excluded from Git
