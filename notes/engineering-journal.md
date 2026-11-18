@@ -515,3 +515,27 @@ AWS assigned new resource IDs, but no Terraform code needed to be manually updat
 - Private SSH allowed from the public Security Group
 - AWS credentials were not hardcoded
 - terraform.tfvars and state files excluded from Git
+
+### Ticket #005 — Docker Deployment to AWS EC2
+
+**Objective:** Deploy a Dockerized Flask application to AWS EC2.
+
+**Technologies:** AWS EC2, Ubuntu, Docker, Python Flask, Git Bash.
+
+**Implementation:**
+- Created a Dockerfile for the Flask application.
+- Built and versioned Docker images (`v1` and `v2`).
+- Added Docker health checks.
+- Configured the application to run as a non-root user.
+- Installed Docker Engine on Ubuntu EC2.
+- Transferred application files using SCP.
+- Built the Docker image on EC2.
+- Started the application container with a restart policy.
+
+**Verification:** Record the results of the container health check, external connectivity test, non-root user check, and log review.
+
+**Security:** Restricted SSH and application access using EC2 security group rules.
+
+**Troubleshooting:** Record any errors encountered and how they were resolved.
+
+**Outcome:** Complete after successful verification and resource cleanup.
