@@ -539,3 +539,44 @@ AWS assigned new resource IDs, but no Terraform code needed to be manually updat
 **Troubleshooting:** Record any errors encountered and how they were resolved.
 
 **Outcome:** Complete after successful verification and resource cleanup.
+
+## Ticket #006 — CI/CD Pipeline Automation & DevSecOps
+
+**Status:** Completed — Pending final documentation commit
+
+### Objective
+Implement an automated GitHub Actions CI pipeline for the ACME Financial Flask application, including application testing, Docker image builds, and vulnerability scanning.
+
+### Implementation
+- Created `.github/workflows/acme-ci.yml`.
+- Configured GitHub Actions to run on pushes and pull requests targeting `main`.
+- Configured Python 3.12 and automated pytest execution.
+- Automated Docker image builds after successful application tests.
+- Integrated Trivy to scan Docker images for HIGH and CRITICAL vulnerabilities.
+- Configured Trivy with `exit-code: '1'` to enforce the security gate.
+
+### Troubleshooting
+1. Resolved a local Python 3.7 and Flask 3.1.1 compatibility issue by creating a Python 3.12 virtual environment.
+2. Fixed missing application files in the GitHub repository.
+3. Fixed a missing Dockerfile in the GitHub Actions build environment.
+4. Corrected the Trivy action version reference.
+5. Investigated a HIGH-severity vulnerability affecting `zlib1g`.
+6. Updated Docker image OS packages and rebuilt the image.
+7. Verified that the GitHub Actions pipeline passed with security enforcement enabled.
+
+### Verification
+- Flask automated tests: Passed.
+- Docker image build: Passed.
+- Docker image verification: Passed.
+- Trivy security gate: Passed.
+- Final GitHub Actions workflow: Green.
+
+### Security Lessons
+- CI/CD automation provides consistent testing and builds.
+- Vulnerability scanning identifies known security risks.
+- Security gates can block vulnerable artifacts.
+- Remediation should address the vulnerability rather than suppress the finding.
+- Least privilege and dependency management are essential DevSecOps practices.
+
+### Outcome
+Successfully implemented a CI pipeline with automated testing, Docker builds, and vulnerability enforcement.
