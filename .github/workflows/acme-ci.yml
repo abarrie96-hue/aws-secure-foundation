@@ -41,3 +41,21 @@ jobs:
 
       - name: Run Automated Tests
         run: python -m pytest tests/ -v
+
+  docker-build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -t acme-flask:ci \
+            ./docker/ticket-005
+
+      - name: Verify Docker Image
+        run: docker image inspect acme-flask:ci
