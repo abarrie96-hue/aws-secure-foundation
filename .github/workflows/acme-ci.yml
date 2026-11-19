@@ -59,3 +59,12 @@ jobs:
 
       - name: Verify Docker Image
         run: docker image inspect acme-flask:ci
+
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: acme-flask:ci
+          format: table
+          severity: HIGH,CRITICAL
+          exit-code: '0'
+          ignore-unfixed: true
